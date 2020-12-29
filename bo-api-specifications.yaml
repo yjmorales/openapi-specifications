@@ -1,0 +1,205 @@
+openapi: 3.0.0
+servers:
+  - description: SwaggerHub server provided by  Swagger
+    url: https://virtserver.swaggerhub.com/Macagua/SimpleBackOffice/1.0.0
+info:
+  description: This is a rest api for BackOffice application.
+  version: 1.0.0
+  title: BackOffice API
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  contact:
+    name: Yenier Jimenez
+tags:
+  - name: security
+    description: Security Management calls.
+
+
+
+#************************************
+#******** Paths *********************
+#************************************
+paths:
+  /security/role:
+    get:
+      x-symfony-controller: App\Api\Security\Role\Controller\ApiRoleController::index
+      tags:
+        - security
+      summary: Find the roles
+      operationId: findAllRolesInventory
+      description: |
+        By passing in the appropriate options, you can search for
+        available roles in the system
+      parameters:
+        - $ref: '#/components/parameters/pageQueryParameter'
+        - $ref: '#/components/parameters/limitQueryParameter'
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Role'
+
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+  /security/role/insert:
+    post:
+      x-symfony-controller: App\Api\Security\Role\Controller\ApiRoleController::insert
+      tags:
+        - security
+      summary: Insert a new Role entity.
+      description: Insert a new Role entity.
+      operationId: insertRole
+      requestBody:
+        description: All information to insert a new Role entity.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+      responses:
+        '201':
+          $ref: '#/components/responses/EmptySuccessResponse'
+
+
+#************************************
+#******** Components ****************
+#************************************
+components:
+
+  #************************************
+  #...Schemas
+  schemas:
+    Role:
+      type: object
+      required:
+        - name
+        - code
+        - color
+      properties:
+        id:
+          description: An unique identifier associated with the object.
+          type: integer
+          nullable: false
+          example: 1
+        name:
+          type: string
+          description: An unique name associated with the object.
+          minLength: 3
+          maxLength: 100
+          nullable: false
+          example: 'Specialist'
+        code:
+          type: string
+          description: An unique code associated with the object.
+          nullable: false
+          minLength: 3
+          maxLength: 10
+          example: 'Spec'
+        color:
+          type: string
+          description: An hexadecimal value that represent a color which identify the role object.
+          nullable: false
+          minLength: 3
+          maxLength: 10
+          pattern: '#[azAz09]+'
+          example: '#FFFFF'
+
+
+    #....Errors
+    BaseError:
+      description: The base error object parent to all documented errors.
+      type: object
+
+    EntityNotFoundError:
+      allOf:
+        - $ref: '#/components/schemas/BaseError'
+      type: object
+
+    UnexpectedFailure:
+      allOf:
+        - $ref: '#/components/schemas/BaseError'
+      type: object
+      properties:
+        type:
+          description: >-
+            This error covers any other type of failure regarding the internal logic.
+          example: UnexpectedFailure
+          type: string
+          enum:
+            - UnexpectedFailure
+        message:
+          type: string
+          example: An unexpected error has occurred.
+  #************************************
+  #...Parameters
+  parameters:
+    identifierParameter:
+      in: path
+      name: id
+      description: A role identifier value.
+      required: true
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+      example: 1
+    limitQueryParameter:
+      in: query
+      name: limit
+      description: A value to limit the count of values to return
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        nullable: true
+      example: 25
+    pageQueryParameter:
+      in: query
+      name: page
+      description: The number of the page.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        default: 1
+        nullable: true
+      example: 1
+
+  #************************************
+  #...Responses
+  responses:
+    EmptySuccessResponse:
+      description: A successful response that does not contain a body.
+      content:
+        application/json:
+          schema:
+            type: object
+
+    EntityNotFoundResponse:
+      description: The requested entity was not found.
+      content:
+        application/json:
+          schema:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/EntityNotFoundError'
+
+    BadRequestResponse:
+      description: >-
+        The server cannot or will not process the request due to an apparent client error
+      content:
+        application/json:
+          schema:
+            type: object
+            oneOf:
+              - $ref: '#/components/schemas/UnexpectedFailure'
