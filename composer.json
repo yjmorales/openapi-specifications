@@ -2,7 +2,6 @@
   "name": "yjmorales/bo-api-specifications",
   "license": "MIT",
   "type": "library",
-  "version": "0.1",
   "description": "This project contains the API definition, interfaces, and data objects for data exchange with BO",
   "authors": [
     {
