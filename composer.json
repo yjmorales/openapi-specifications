@@ -1,0 +1,16 @@
+{
+  "name": "yjmorales/bo-api-specifications",
+  "license": "MIT",
+  "type": "library",
+  "description": "This project contains the API definition, interfaces, and data objects for data exchange with BO",
+  "authors": [
+    {
+      "name": "Yenier Jimenez",
+      "email": "yjmorales86@gmail.com"
+    }
+  ],
+  "require": {},
+  "config": {
+    "sort-packages": true
+  }
+}
