@@ -10,7 +10,9 @@
       "email": "yjmorales86@gmail.com"
     }
   ],
-  "require": {},
+  "require": {
+    "phpunit/phpunit": "^5.7"
+  },
   "config": {
     "sort-packages": true
   },
