@@ -1,6 +1,6 @@
 # This project contains an API definition based on OpenApi 3 Specifications.
 
-This project holds the specification, written in OpenApi 3.0, for BackOffice project.
+This project holds an API definition, based on OpenApi 3 Specifications, for a tipical BackOffice project.
 The specification file is self explanatory and below is minor information on how to install this on a project.
 
 Installation
