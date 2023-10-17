@@ -25,7 +25,7 @@ Further information about OpenAPI Specification please visit its [specification]
 
 Yenier Jimenez
 <br>
-http://yenierjimenez.com
+http://yenierjimenez.net
 <br>
 yjmorales86@gmail.com
 
